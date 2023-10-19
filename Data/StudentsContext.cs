@@ -14,7 +14,6 @@ public partial class StudentsContext : DbContext
         : base(options)
     {
     }
-
     public virtual DbSet<AdmissionApplication> AdmissionApplications { get; set; }
 
     public virtual DbSet<AdmissionPlan> AdmissionPlans { get; set; }
