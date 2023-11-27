@@ -7,7 +7,6 @@ namespace Lab_4;
 public partial class AdmissionsOfficer
 {
     public int AdmissionsOfficerId { get; set; }
-
     [Required]
     [StringLength(100, MinimumLength = 3)]
     [MaxLength]
