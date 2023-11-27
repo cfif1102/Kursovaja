@@ -1,0 +1,209 @@
+﻿@using Lab_4.ViewModels.Applicants
+@using Lab_4.ViewModels
+@model PaginationViewModel<Applicant, ApplicantFilterViewModel, ApplicantsSortViewModel>
+@addTagHelper *, Lab_4
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<form method="get" class="mt-1">
+    <label class="form-inline mt-1">Родитель: </label>
+    <select class="form-control" name="parentId" asp-items="Model.FilterViewModel.Parents"></select>
+
+    <label class="form-inline mt-1">Университет: </label>
+    <select class="form-control" name="univerId" asp-items="Model.FilterViewModel.Univers"></select>
+
+    <input type="submit" value="Фильтр" class="btn btn-primary mt-2" />
+</form>
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().Surname)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.SurnameSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().Name)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.MiddlenameSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().Middlename)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.IdDocSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().IdentificationDocument)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.EdDocSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().EducationDocument)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.AvGradeSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().AverageGrade)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.AddressSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().ResidentialAddress)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.PhoneSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().Phone)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.EmailSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().Email)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.GradYearSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().GraduationYear)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.ForeignLanguageSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().ForeignLanguage)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.EdDocSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().EducationInstitution)
+                </a>
+            </th>
+            <th>
+                <a asp-action="IndexBig"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.ParentSort)"
+                   asp-route-univerId="@(Model.FilterViewModel.UniverId)"
+                   asp-route-parentId="@(Model.FilterViewModel.ParentId)">
+                    @Html.DisplayNameFor(model => model.Items.First().Parents)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Middlename)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdentificationDocument)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EducationDocument)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AverageGrade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ResidentialAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GraduationYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ForeignLanguage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EducationInstitution.InstitutionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Parents.Parent1Name)
+                </td>
+                <td>
+                    @if (User.IsInRole("MainAdmin") || User.IsInRole("JuniorAdmin") || User.IsInRole("AdmissionOfficer"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ApplicantId">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.ApplicantId">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.ApplicantId">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<page-link page-model="Model.PageViewModel" page-action="IndexBig"
+           page-url-univerId="@(Model.FilterViewModel.UniverId)"
+           page-url-parentId="@(Model.FilterViewModel.ParentId)"
+           page-url-sortOrder="@(Model.SortViewModel.Current)"></page-link>

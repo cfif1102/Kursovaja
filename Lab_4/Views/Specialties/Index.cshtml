@@ -1,0 +1,69 @@
+﻿@using Lab_4.ViewModels.Specialities
+@using Lab_4.ViewModels
+@model PaginationViewModel<Specialty, SpecialitiesFilterViewModel, SpecialitiesSortViewModel>
+@addTagHelper *, Lab_4
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<form method="get" class="mt-1">
+    <label class="form-inline mt-1">Факультет: </label>
+    <select class="form-control" name="facultyId" asp-items="Model.FilterViewModel.Faculties"></select>
+
+    <input type="submit" value="Фильтр" class="btn btn-primary mt-2" />
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                 <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                   asp-route-facultyId="@(Model.FilterViewModel.FacultyId)">
+                @Html.DisplayNameFor(model => model.Items.First().SpecialtyName)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.FacultySort)"
+                   asp-route-facultyId="@(Model.FilterViewModel.FacultyId)">
+                @Html.DisplayNameFor(model => model.Items.First().Faculty)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialtyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Faculty.FacultyName)
+            </td>
+            <td>
+                    @if (User.Identity.IsAuthenticated && (User.IsInRole("MainAdmin") || User.IsInRole("JuniorAdmin")))
+                {
+                <a asp-action="Edit" asp-route-id="@item.SpecialtyId">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.SpecialtyId">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.SpecialtyId">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<page-link page-model="Model.PageViewModel" page-action="Index"
+           page-url-facultyId="@(Model.FilterViewModel.FacultyId)"
+           page-url-sortOrder="@(Model.SortViewModel.Current)"></page-link>

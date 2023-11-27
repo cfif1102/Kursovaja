@@ -1,0 +1,111 @@
+﻿@using Lab_4.ViewModels.AdmissionApplications
+@using Lab_4.ViewModels
+@model PaginationViewModel<AdmissionApplication, AdmissionApplicationFilterViewModel, AdmissionApplicationSortViewModel>
+@addTagHelper *, Lab_4
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<form method="get" class="mt-1">
+    <label class="form-inline mt-1">Специальность: </label>
+    <select class="form-control" name="specialityId" asp-items="Model.FilterViewModel.Specialities"></select>
+
+    <label class="form-inline mt-1">Абитуриент: </label>
+    <select class="form-control" name="applicantId" asp-items="Model.FilterViewModel.Applicants"></select>
+
+    <input type="submit" value="Фильтр" class="btn btn-primary mt-2" />
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.ApplicationDateSort)"
+                   asp-route-applicantId="@(Model.FilterViewModel.ApplicantId)"
+                   asp-route-specialityId="@(Model.FilterViewModel.SpecialityId)">
+                @Html.DisplayNameFor(model => model.Items.First().ApplicationDate)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.OtherDetailsSort)"
+                   asp-route-applicantId="@(Model.FilterViewModel.ApplicantId)"
+                   asp-route-specialityId="@(Model.FilterViewModel.SpecialityId)">
+                @Html.DisplayNameFor(model => model.Items.First().OtherDetails)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.AdmissionOfiicerSort)"
+                   asp-route-applicantId="@(Model.FilterViewModel.ApplicantId)"
+                   asp-route-specialityId="@(Model.FilterViewModel.SpecialityId)">
+                @Html.DisplayNameFor(model => model.Items.First().AdmissionsOfficer)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.ApplicantSort)"
+                   asp-route-applicantId="@(Model.FilterViewModel.ApplicantId)"
+                   asp-route-specialityId="@(Model.FilterViewModel.SpecialityId)">
+                @Html.DisplayNameFor(model => model.Items.First().Applicant)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.SpecialitySort)"
+                   asp-route-applicantId="@(Model.FilterViewModel.ApplicantId)"
+                   asp-route-specialityId="@(Model.FilterViewModel.SpecialityId)">
+                @Html.DisplayNameFor(model => model.Items.First().Specialty)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationDate)
+            </td>
+            <td>
+                    <p class ="text-break">@Html.DisplayFor(modelItem => item.OtherDetails)</p>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdmissionsOfficer.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Applicant.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specialty.SpecialtyName)
+            </td>
+            <td>
+                    @if (User.IsInRole("MainAdmin") || User.IsInRole("JuniorAdmin") || User.IsInRole("AdmissionOfficer"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ApplicationId">Edit</a>
+                    
+                    <a asp-action = "Details" asp-route-id = "@item.ApplicationId" > Details </a > 
+                    <a asp-action = "Delete" asp-route-id = "@item.ApplicationId" > Delete </a >
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<page-link page-model="Model.PageViewModel" page-action="Index"
+           page-url-applicantId="@(Model.FilterViewModel.ApplicantId)"
+           page-url-specialityId="@(Model.FilterViewModel.SpecialityId)"
+           page-url-sortOrder="@(Model.SortViewModel.Current)"></page-link>

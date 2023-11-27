@@ -1,0 +1,76 @@
+﻿@using Lab_4.ViewModels
+@using Lab_4.ViewModels.Parents
+@model PaginationViewModel<Parent, ParentsFilterViewMode, ParentsSortViewModel>
+
+@addTagHelper *, Lab_4
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<form method="get" class="mt-1">
+    <label class="form-inline">Первый родитель: </label>
+    <input class="form-control" name="p1" value="@Model.FilterViewModel.Parent1" />
+
+    <label class="form-inline">Второй родитель: </label>
+    <input class="form-control" name="p2" value="@Model.FilterViewModel.Parent2" />
+
+    <input type="submit" value="Фильтр" class="btn btn-primary mt-2" />
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index"
+                   asp-route-p1="@(Model.FilterViewModel.Parent1)"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-p2="@(Model.FilterViewModel.Parent2)"
+                   asp-route-sortOrder="@(Model.SortViewModel.Parent1Sort)">
+
+                   @Html.DisplayNameFor(model => model.Items.First().Parent1Name)
+                   </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-p1="@(Model.FilterViewModel.Parent1)"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-p2="@(Model.FilterViewModel.Parent2)"
+                   asp-route-sortOrder="@(Model.SortViewModel.Parent2Sort)">
+                @Html.DisplayNameFor(model => model.Items.First().Parent2Name)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent1Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent2Name)
+            </td>
+            <td>
+                    @if (User.IsInRole("MainAdmin") || User.IsInRole("JuniorAdmin") || User.IsInRole("AdmissionOfficer"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ParentsId">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.ParentsId">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.ParentsId">Delete</a>
+                    }
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<page-link page-model="Model.PageViewModel" page-action="Index"
+           page-url-p1="@(Model.FilterViewModel.Parent1)"
+           page-url-p2="@(Model.FilterViewModel.Parent2)"
+           page-url-sortOrder="@(Model.SortViewModel.Current)"></page-link>

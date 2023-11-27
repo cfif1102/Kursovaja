@@ -1,0 +1,76 @@
+﻿@using Lab_4.ViewModels.AdmissionOfficers
+@using Lab_4.ViewModels
+@model PaginationViewModel<AdmissionsOfficer, AdmissionOfficersFilterViewModel, AdmissionOfficersSortViewModel>
+@addTagHelper *, Lab_4
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<form method="get" class="mt-1">
+    <label class="form-inline">Имя: </label>
+    <input class="form-control" name="name" value="@Model.FilterViewModel.Name" />
+
+    <label class="form-inline">Отделение: </label>
+    <input class="form-control" name="department" value="@Model.FilterViewModel.Department" />
+
+    <input type="submit" value="Фильтр" class="btn btn-primary mt-2" />
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                   asp-route-name="@(Model.FilterViewModel.Name)"
+                   asp-route-department="@(Model.FilterViewModel.Department)">
+                @Html.DisplayNameFor(model => model.Items.First().FullName)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                   asp-route-name="@(Model.FilterViewModel.Name)"
+                   asp-route-department="@(Model.FilterViewModel.Department)"
+                >
+                @Html.DisplayNameFor(model => model.Items.First().Department)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department)
+            </td>
+            <td>
+                @if ((User.IsInRole("MainAdmin") || User.IsInRole("JuniorAdmin")) && User.Identity.IsAuthenticated)
+                {
+                        <a asp-action="Edit" asp-route-id="@item.AdmissionsOfficerId">Edit</a>
+                    
+                    <a asp-action = "Details" asp-route-id = "@item.AdmissionsOfficerId" > Details </a > 
+                    <a asp-action = "Delete" asp-route-id = "@item.AdmissionsOfficerId" > Delete </a >
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<page-link page-model="Model.PageViewModel" page-action="Index"
+           page-url-name="@(Model.FilterViewModel.Name)"
+           page-url-department="@(Model.FilterViewModel.Department)"
+           page-url-sortOrder="@(Model.SortViewModel.Current)"></page-link>
