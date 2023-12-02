@@ -11,6 +11,8 @@ using Lab_4.ViewModels.Faculties;
 using Lab_4.ViewModels;
 using SortState = Lab_4.ViewModels.Specialities.SortState;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.SqlClient;
+using System.Drawing.Printing;
 
 namespace Lab_4.Controllers
 {
@@ -57,14 +59,83 @@ namespace Lab_4.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> SpecialitiesCount(int page = 1)
+        public async Task<IActionResult> SpecialitiesCount(int page = 1, SortState sortOrder = SortState.NameAsc)
         {
+            IQueryable<SpecialitiesCountViewModel> counts = _context.Specialties
+                .Include(s => s.AdmissionApplications)
+                .Select(s => new SpecialitiesCountViewModel
+                {
+                    Specialty = s,
+                    Count = s.AdmissionApplications.Count()
+                });
+
+            int pageSize = 10;
+
+            var count = counts.Count();
+            var items = counts.Skip((page - 1) * pageSize).Take(pageSize);
+
+            switch (sortOrder)
+            {
+                case SortState.NameDesc:
+                    items = items.OrderByDescending(s => s.Specialty.SpecialtyName);
+                    break;
+                case SortState.CountDesc:
+                    items = items.OrderByDescending(s => s.Count);
+                    break;
+            }
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            PaginationViewModel<SpecialitiesCountViewModel, SpecialitiesFilterViewModel, SpecialitiesSortViewModel> viewModel = new
+                (items, pageViewModel, null, new SpecialitiesSortViewModel(sortOrder));
+
+            return View(viewModel);
 
         }
 
-        public async Task<IActionResult> ApplicantsRating(int page = 1)
+        public async Task<IActionResult> ApplicantsRating(int page = 1, int year = 0)
         {
 
+            IQueryable<Specialty> specialities = _context.Specialties;
+
+            if (year == 0)
+            {
+                year = DateTime.Now.Year;
+            }
+
+            specialities = from s in specialities
+                           join ad in _context.AdmissionApplications on s.SpecialtyId equals ad.SpecialtyId
+                           where ad.ApplicationDate.Year == year
+                           select s;
+
+            IQueryable<ApplicantsRatingViewModel> specs = specialities
+                .Select(s => new ApplicantsRatingViewModel
+                {
+                    Speciality = s,
+                    ApplicantsGrade = s.AdmissionApplications.Select(ad => new ApplicantGrade
+                    {
+                        Applicant = ad.Applicant,
+                        Grade = ad.Applicant.ApplicantCertificates.Sum(cer => cer.Grade),
+                    }).OrderByDescending(a => a.Grade).ToList(),
+                    TakeAmount = _context.AdmissionPlans.FirstOrDefault(p => p.SpecialtyId == s.SpecialtyId).NumberOfSeats,
+                    EnterGrade = s.AdmissionApplications.Select(ad => new ApplicantGrade
+                    {
+                        Applicant = ad.Applicant,
+                        Grade = ad.Applicant.ApplicantCertificates.Sum(cer => cer.Grade)
+                    }).OrderByDescending(a => a.Grade).Take(_context.AdmissionPlans.FirstOrDefault(p => p.SpecialtyId == s.SpecialtyId).NumberOfSeats).Last().Grade
+                });
+
+            int pageSize = 5;
+            
+
+            var count = specs.Count();
+            var items = specs.Skip((page - 1) * pageSize).Take(pageSize);
+
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            PaginationViewModel<ApplicantsRatingViewModel, SpecialitiesFilterViewModel, SpecialitiesSortViewModel> viewModel = new
+                (items, pageViewModel, new SpecialitiesFilterViewModel(null, 0, year), null);
+
+            return View(viewModel);
         }
 
         // GET: Specialties/Details/5

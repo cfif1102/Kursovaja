@@ -9,7 +9,7 @@ public partial class AdmissionApplication
     public int ApplicationId { get; set; }
 
     [Required]
-    public DateTime? ApplicationDate { get; set; }
+    public DateTime ApplicationDate { get; set; }
 
     public int? ApplicantId { get; set; }
 

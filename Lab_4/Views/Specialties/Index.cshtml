@@ -18,7 +18,12 @@
 </form>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (User.Identity.IsAuthenticated && (User.IsInRole("MainAdmin") || User.IsInRole("JuniorAdmin")))
+    {
+        <a asp-action="Create">Create New |</a>
+    }
+    <a asp-action="SpecialitiesCount">Специальности по заявлениям |</a>
+    <a asp-action="ApplicantsRating">Баллы специальностей</a>
 </p>
 <table class="table">
     <thead>

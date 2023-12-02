@@ -10,8 +10,7 @@ public partial class Specialty
     public int SpecialtyId { get; set; }
 
     [Required]
-    [StringLength(255, MinimumLength = 3)]
-    [MaxLength]
+    [Display(Name = "Специальность")]
     public string? SpecialtyName { get; set; }
 
     public int? FacultyId { get; set; }

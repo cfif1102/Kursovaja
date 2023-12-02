@@ -8,13 +8,20 @@ namespace Lab_4.ViewModels.Specialities
 
         public int FacultyId { get; set; }
 
-        public SpecialitiesFilterViewModel(List<Faculty> faculties, int facultyId)
+        public int Year { get; set; }
+
+        public SpecialitiesFilterViewModel(List<Faculty> faculties, int facultyId, int year = 0)
         {
-            faculties.Insert(0, new Faculty { FacultyId = 0, FacultyName = "Все" });
+            if (faculties != null)
+            {
+                faculties.Insert(0, new Faculty { FacultyId = 0, FacultyName = "Все" });
 
-            Faculties = new SelectList(faculties, "FacultyId", "FacultyName");
+                Faculties = new SelectList(faculties, "FacultyId", "FacultyName");
 
-            FacultyId = facultyId;
+                FacultyId = facultyId;
+            }
+
+            Year = year;
         }
     }
 }

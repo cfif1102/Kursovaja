@@ -34,12 +34,12 @@ namespace Lab_4.Data
 
             db.SaveChanges();
 
-            for (int i = 1; i <= 10000; i++)
+            for (int i = 1; i <= 1000; i++)
             {
                 db.Specialties.Add(new Specialty
                 {
                     SpecialtyName = Faker.Company.Name(),
-                    FacultyId = Faker.RandomNumber.Next(1, 500)
+                    FacultyId = Faker.RandomNumber.Next(1, 100)
                 });
             }
 
@@ -55,13 +55,13 @@ namespace Lab_4.Data
 
             db.SaveChanges();
 
-            for (int i = 1; i <= 10000; i++)
+            for (int i = 1; i <= 20000; i++)
             {
                 db.AdmissionPlans.Add(new AdmissionPlan
                 {
                     Year = Faker.RandomNumber.Next(1980, 2023),
-                    SpecialtyId = Faker.RandomNumber.Next(1, 500),
-                    NumberOfSeats = Faker.RandomNumber.Next(10, 100)
+                    SpecialtyId = Faker.RandomNumber.Next(1, 1000),
+                    NumberOfSeats = Faker.RandomNumber.Next(7, 15)
                 });
             }
 
@@ -78,7 +78,7 @@ namespace Lab_4.Data
 
             db.SaveChanges();
 
-            for (var i = 1; i <= 10000; i++)
+            for (var i = 1; i <= 1000; i++)
             {
                 db.Applicants.Add(new Applicant
                 {
@@ -100,11 +100,11 @@ namespace Lab_4.Data
 
             db.SaveChanges();
 
-            for (var i = 1; i <= 20000; i++)
+            for (var i = 1; i <= 10000; i++)
             {
                 db.ApplicantCertificates.Add(new ApplicantCertificate
                 {
-                    ApplicantId = Faker.RandomNumber.Next(1, 10000),
+                    ApplicantId = Faker.RandomNumber.Next(1, 1000),
                     Grade = Faker.RandomNumber.Next(1, 10)
                 });
             }
@@ -115,9 +115,9 @@ namespace Lab_4.Data
             {
                 db.AdmissionApplications.Add(new AdmissionApplication
                 {
-                    ApplicantId = Faker.RandomNumber.Next(1, 10000),
+                    ApplicantId = Faker.RandomNumber.Next(1, 1000),
                     ApplicationDate = Faker.Identification.DateOfBirth(),
-                    SpecialtyId = Faker.RandomNumber.Next(1, 500),
+                    SpecialtyId = Faker.RandomNumber.Next(1, 1000),
                     AdmissionsOfficerId = Faker.RandomNumber.Next(1, 500),
                     OtherDetails = string.Join("", Faker.Lorem.Words(Faker.RandomNumber.Next(1, 25)))
                 });

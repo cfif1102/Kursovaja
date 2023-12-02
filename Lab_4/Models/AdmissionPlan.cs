@@ -18,7 +18,7 @@ public partial class AdmissionPlan
     [Required]
     [RegularExpression(@"^[+]?\d+([.]\d+)?$", ErrorMessage = "Number of seats should be positive number!")]
 
-    public int? NumberOfSeats { get; set; }
+    public int NumberOfSeats { get; set; }
 
     public virtual Specialty? Specialty { get; set; }
 }

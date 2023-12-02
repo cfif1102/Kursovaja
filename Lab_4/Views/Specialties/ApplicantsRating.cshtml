@@ -1,0 +1,71 @@
+﻿@using Lab_4.ViewModels.Specialities
+@using Lab_4.ViewModels
+@model PaginationViewModel<ApplicantsRatingViewModel, SpecialitiesFilterViewModel, SpecialitiesSortViewModel>
+@addTagHelper *, Lab_4
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Специальности</h2>
+
+<form method="get" class="mt-1">
+    <label class="form-inline mt-1">Год: </label>
+    <input class="form-control" name="year" type="text" value="@(Model.FilterViewModel.Year)"/>
+
+    <input type="submit" value="Поиск" class="btn btn-primary mt-2" />
+</form>
+
+@foreach (var item in Model.Items)
+{
+    <div class="form-group mt-2">
+        <h4>Специальность: @Html.DisplayFor(modelItem => item.Speciality.SpecialtyName), Мест: @Html.DisplayFor(modelItem => item.TakeAmount)</h4>
+        <h4>Проходной балл: @Html.DisplayFor(modelItem => item.EnterGrade)</h4>
+        <h4>Топ абитуриентов: </h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Абитуриент
+                    </th>
+                    <th>
+                        Балл
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < item.ApplicantsGrade.Count(); i++)
+                {
+                    @if (i + 1 <= item.TakeAmount)
+                    {
+                        <tr class="table-info">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ApplicantsGrade.ElementAt(i).Applicant.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem =>  item.ApplicantsGrade.ElementAt(i).Grade)
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="table-secondary">
+                            <td>
+                            @Html.DisplayFor(modelItem => item.ApplicantsGrade.ElementAt(i).Applicant.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem =>  item.ApplicantsGrade.ElementAt(i).Grade)
+                        </td>
+                    </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<page-link 
+    page-model="Model.PageViewModel" 
+    page-action="ApplicantsRating"
+    page-url-year="@(Model.FilterViewModel.Year)">
+</page-link>

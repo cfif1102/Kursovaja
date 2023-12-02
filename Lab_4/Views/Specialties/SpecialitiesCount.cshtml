@@ -1,0 +1,51 @@
+﻿@using Lab_4.ViewModels.Specialities
+@using Lab_4.ViewModels
+@model PaginationViewModel<SpecialitiesCountViewModel, SpecialitiesFilterViewModel, SpecialitiesSortViewModel>
+@addTagHelper *, Lab_4
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Специальности по кол-ву заявлений</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="SpecialitiesCount"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                >
+                   @Html.DisplayNameFor(model => model.Items.First().Specialty.SpecialtyName)
+                </a>
+            </th>
+            <th>
+                <a asp-action="SpecialitiesCount"
+                   asp-route-page="@(Model.PageViewModel.PageNumber)"
+                   asp-route-sortOrder="@(Model.SortViewModel.CountSort)">
+                    @Html.DisplayNameFor(model => model.Items.First().Count)
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specialty.SpecialtyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<page-link 
+    page-model="Model.PageViewModel" 
+    page-action="SpecialitiesCount"
+    page-url-sortOrder="@(Model.SortViewModel.Current)">
+
+</page-link>

@@ -11,8 +11,9 @@ namespace Lab_4.Middleware
         {
             if (!(context.Session.Keys.Contains("starting")))
             {
-                RolesInitializer.Initialize(context).Wait();
+                
                 DbInitializer.Initialize(dbContext);
+                RolesInitializer.Initialize(context).Wait();
                 context.Session.SetString("starting", "Yes");
             }
 

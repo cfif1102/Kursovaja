@@ -53,7 +53,7 @@ namespace Lab_4.Controllers
                     items = items.OrderByDescending(s => s.OtherDetails);
                     break;
                 case SortState.ApplicationDateDesc:
-                    items = items.OrderByDescending(s => s.ApplicationDate.Value);
+                    items = items.OrderByDescending(s => s.ApplicationDate);
                     break;
                 case SortState.AdmissionOfficerDesc:
                     items = items.OrderByDescending(s => s.AdmissionsOfficer.FullName);
