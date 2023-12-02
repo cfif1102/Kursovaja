@@ -24,7 +24,7 @@ namespace Lab_4.Data
 
             db.SaveChanges();
 
-            for (int i = 1; i <= 500; i++)
+            for (int i = 1; i <= 100; i++)
             {
                 db.Faculties.Add(new Faculty
                 {

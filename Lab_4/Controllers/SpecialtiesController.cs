@@ -57,6 +57,16 @@ namespace Lab_4.Controllers
             return View(viewModel);
         }
 
+        public async Task<IActionResult> SpecialitiesCount(int page = 1)
+        {
+
+        }
+
+        public async Task<IActionResult> ApplicantsRating(int page = 1)
+        {
+
+        }
+
         // GET: Specialties/Details/5
         [Authorize(Roles = "JuniorAdmin,MainAdmin,AdmissionOfficer")]
         public async Task<IActionResult> Details(int? id)
