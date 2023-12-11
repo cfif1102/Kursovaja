@@ -116,13 +116,14 @@ namespace Lab_4.Controllers
                         Applicant = ad.Applicant,
                         Grade = ad.Applicant.ApplicantCertificates.Sum(cer => cer.Grade),
                     }).OrderByDescending(a => a.Grade).ToList(),
-                    TakeAmount = _context.AdmissionPlans.FirstOrDefault(p => p.SpecialtyId == s.SpecialtyId).NumberOfSeats,
+                    TakeAmount = _context.AdmissionPlans.FirstOrDefault(p => p.SpecialtyId == s.SpecialtyId && p.Year == year).NumberOfSeats,
                     EnterGrade = s.AdmissionApplications.Select(ad => new ApplicantGrade
                     {
                         Applicant = ad.Applicant,
                         Grade = ad.Applicant.ApplicantCertificates.Sum(cer => cer.Grade)
-                    }).OrderByDescending(a => a.Grade).Take(_context.AdmissionPlans.FirstOrDefault(p => p.SpecialtyId == s.SpecialtyId).NumberOfSeats).Last().Grade
-                });
+                    }).OrderByDescending(a => a.Grade).Take(_context.AdmissionPlans.FirstOrDefault(p => p.SpecialtyId == s.SpecialtyId && p.Year == year).NumberOfSeats).Last().Grade
+                })
+                .Where(p => p.ApplicantsGrade.Any());
 
             int pageSize = 5;
             

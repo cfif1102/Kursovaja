@@ -7,6 +7,8 @@
 
         public IEnumerable<ApplicantGrade> ApplicantsGrade { get; set; }
 
+        public IEnumerable<ApplicantGrade> Applicants { get => ApplicantsGrade.Take(TakeAmount + 2);  }
+
         public decimal? EnterGrade { get; set; }
 
         public int TakeAmount { get; set; }

@@ -34,7 +34,7 @@ namespace Lab_4.Data
 
             db.SaveChanges();
 
-            for (int i = 1; i <= 1000; i++)
+            for (int i = 1; i <= 100; i++)
             {
                 db.Specialties.Add(new Specialty
                 {
@@ -55,12 +55,12 @@ namespace Lab_4.Data
 
             db.SaveChanges();
 
-            for (int i = 1; i <= 20000; i++)
+            for (int i = 1; i <= 10000; i++)
             {
                 db.AdmissionPlans.Add(new AdmissionPlan
                 {
-                    Year = Faker.RandomNumber.Next(1980, 2023),
-                    SpecialtyId = Faker.RandomNumber.Next(1, 1000),
+                    Year = Faker.RandomNumber.Next(2000, 2023),
+                    SpecialtyId = Faker.RandomNumber.Next(1, 100),
                     NumberOfSeats = Faker.RandomNumber.Next(7, 15)
                 });
             }
@@ -117,7 +117,7 @@ namespace Lab_4.Data
                 {
                     ApplicantId = Faker.RandomNumber.Next(1, 1000),
                     ApplicationDate = Faker.Identification.DateOfBirth(),
-                    SpecialtyId = Faker.RandomNumber.Next(1, 1000),
+                    SpecialtyId = Faker.RandomNumber.Next(1, 100),
                     AdmissionsOfficerId = Faker.RandomNumber.Next(1, 500),
                     OtherDetails = string.Join("", Faker.Lorem.Words(Faker.RandomNumber.Next(1, 25)))
                 });

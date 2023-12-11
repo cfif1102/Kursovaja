@@ -9,8 +9,6 @@ public partial class Faculty
     public int FacultyId { get; set; }
 
     [Required]
-    [StringLength(255, MinimumLength = 3)]
-    [MaxLength]
     public string? FacultyName { get; set; }
 
     public virtual ICollection<Specialty> Specialties { get; set; } = new List<Specialty>();
