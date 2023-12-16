@@ -55,16 +55,18 @@ public partial class StudentsContext : IdentityDbContext<User>
 
             entity.HasOne(d => d.AdmissionsOfficer).WithMany(p => p.AdmissionApplications)
                 .HasForeignKey(d => d.AdmissionsOfficerId)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK__Admission__Admis__49C3F6B7");
 
             entity.HasOne(d => d.Applicant).WithMany(p => p.AdmissionApplications)
                 .HasForeignKey(d => d.ApplicantId)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK__Admission__Appli__4AB81AF0");
 
             entity.HasOne(d => d.Specialty).WithMany(p => p.AdmissionApplications)
                 .HasForeignKey(d => d.SpecialtyId)
-                .HasConstraintName("FK__Admission__Speci__48CFD27E")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK__Admission__Speci__48CFD27E");
         });
 
         modelBuilder.Entity<AdmissionPlan>(entity =>
@@ -80,7 +82,7 @@ public partial class StudentsContext : IdentityDbContext<User>
             entity.HasOne(d => d.Specialty).WithMany(p => p.AdmissionPlans)
                 .HasForeignKey(d => d.SpecialtyId)
                 .HasConstraintName("FK__Admission__Speci__3E52440B")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<AdmissionsOfficer>(entity =>
@@ -145,12 +147,12 @@ public partial class StudentsContext : IdentityDbContext<User>
             entity.HasOne(d => d.EducationInstitution).WithMany(p => p.Applicants)
                 .HasForeignKey(d => d.EducationInstitutionId)
                 .HasConstraintName("FK__Applicant__Educa__44FF419A")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             entity.HasOne(d => d.Parents).WithMany(p => p.Applicants)
                 .HasForeignKey(d => d.ParentsId)
                 .HasConstraintName("FK__Applicant__Paren__45F365D3")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<ApplicantCertificate>(entity =>
@@ -166,7 +168,7 @@ public partial class StudentsContext : IdentityDbContext<User>
             entity.HasOne(d => d.Applicant).WithMany(p => p.ApplicantCertificates)
                 .HasForeignKey(d => d.ApplicantId)
                 .HasConstraintName("FK__Applicant__Appli__4D94879B")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<EducationInstitution>(entity =>
@@ -225,7 +227,7 @@ public partial class StudentsContext : IdentityDbContext<User>
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasForeignKey(d => d.FacultyId)
                 .HasConstraintName("FK__Specialti__Facul__398D8EEE")
-                .OnDelete(DeleteBehavior.Cascade); ;
+                .OnDelete(DeleteBehavior.SetNull);
 
         });
     }

@@ -21,7 +21,10 @@
 </form>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @if (User.Identity.IsAuthenticated && (User.IsInRole("MainAdmin") || User.IsInRole("JuniorAdmin")))
+    {
+        <a asp-action="Create">Create New |</a>
+    }
 </p>
 <table class="table">
     <thead>
