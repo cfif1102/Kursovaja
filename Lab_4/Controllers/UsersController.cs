@@ -91,8 +91,16 @@ namespace Lab_4.Controllers
         public async Task<ActionResult> Delete(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
+            
             if (user != null)
             {
+                var roles = await HttpContext.RequestServices.GetRequiredService<UserManager<User>>().GetRolesAsync(user);
+                
+                if (roles.Contains("MainAdmin"))
+                {
+                    return RedirectToAction("Index");
+                }
+
                 IdentityResult result = await _userManager.DeleteAsync(user);
             }
             return RedirectToAction("Index");
