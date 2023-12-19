@@ -6,11 +6,14 @@ namespace Lab_4;
 
 public partial class AdmissionsOfficer
 {
+    [Display(Name = "Код члена комиссии")]
     public int AdmissionsOfficerId { get; set; }
-    [Required]
 
+    [Required]
+    [Display(Name = "Имя")]
     public string? FullName { get; set; }
 
+    [Display(Name = "Отдел")]
     [Required]
     public string? Department { get; set; }
 
